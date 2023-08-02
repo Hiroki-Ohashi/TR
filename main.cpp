@@ -3,6 +3,11 @@
 #include "Vector3.h"
 #include "Vector4.h"
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+
+
 
 
 const char kWindowTitle[] = "学籍番号";
@@ -10,6 +15,7 @@ const char kWindowTitle[] = "学籍番号";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
 	const int width = 500;
 	const int height = 500;
 
@@ -26,11 +32,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	int x = 0;
 	int y = 0;
 
-	int pixels[width * height];
+	//int index[width][height] = { 0 };
+
+	//int pixels[width * height];
 
 	int gh1 = Novice::LoadTexture("./particle.png");
-
-	//int pixels[width * height] = { 0 };
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -50,29 +56,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		pos2.x = (float)x;
 		pos2.y = (float)y;
 
-
-
-		// 全ての画素を見るfor分
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-
-				int index = x + y * width;
-				float sum = 0;
-
-				//↓一つの画素に対し、すべてのmetaballからの距離を積算している。      
-				for (int i = 0; i < /*メタボールの位置*/; i++) {
-					
-					//↓画素からボール中心への距離
-					float d = sqrtf(powf(y - pos.y, 2) + powf(y - pos.x, 2));
-					sum += d;
-				}
-
-				//２．
-
-				pixels[index] = RGB(sum, 255, 255);
-				//pixels[index] = color(sum, 255, 255);
-			}
-
 		///
 		/// ↑更新処理ここまで
 		///
@@ -83,28 +66,28 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		Novice::DrawBox(
-			0, 0,
-			width, height,
-			0.0f,
-			BLACK,
-			kFillModeSolid
-		);
+		//Novice::DrawBox(
+		//	0, 0,
+		//	500, 500,
+		//	0.0f,
+		//	BLACK,
+		//	kFillModeSolid
+		//);
 
-		Novice::SetBlendMode(BlendMode::kBlendModeAdd);
+		Novice::SetBlendMode(BlendMode::kBlendModeSubtract);
 
 		Novice::DrawSprite(
-			(int)pos.x, (int)pos.y,
+			(int)pos.x - 45, (int)pos.y - 170,
 			gh1,
-			0.2f, 0.2f,
+			0.5f, 0.5f,
 			0.0f,
 			WHITE
 		);
 
 		Novice::DrawSprite(
-			(int)pos2.x - 150, (int)pos2.y - 100,
+			(int)pos2.x - 150, (int)pos2.y - 150,
 			gh1,
-			0.2f, 0.2f,
+			0.5f, 0.5f,
 			0.0f,
 			WHITE
 		);
